@@ -35,7 +35,7 @@ try:
         );
     """)
 
-    print("Cart and Wishlist tables updated successfully, bhai!")
+    print("Cart and Wishlist tables updated successfully")
 
 except Exception as e:
     print(f"Error: {e}")

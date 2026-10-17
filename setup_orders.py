@@ -24,7 +24,7 @@ try:
         );
     """)
 
-    print("Orders table created successfully, bhai!")
+    print("Orders table created successfully")
 
 except Exception as e:
     print(f"Error: {e}")
