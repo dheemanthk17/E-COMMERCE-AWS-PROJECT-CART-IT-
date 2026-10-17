@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CART-IT | Premium Essentials</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Minimalist Navigation -->
+    <nav class="navbar">
+        <div class="logo">CART-IT<span class="trademark">™</span></div>
+        <ul class="nav-links">
+            <li><a href="#">SHOP</a></li>
+            <li><a href="#">EDITORIAL</a></li>
+            <li><a href="#">ABOUT</a></li>
+        </ul>
+        <div class="nav-icons">
+            <!-- Auth and Sidebar Triggers -->
+            <span class="icon" id="auth-trigger" onclick="openAuthModal()" style="cursor:pointer;">LOGIN / REGISTER</span>
+            <!-- NEW ORDERS BUTTON (Hidden until login) -->
+            <span class="icon" id="orders-trigger" onclick="openOrdersModal()" style="cursor:pointer; display:none;">ORDERS</span>
+            <span class="icon" id="wishlist-trigger" style="cursor:pointer;">WISHLIST (0)</span>
+            <span class="icon" id="bag-trigger" style="cursor:pointer;">BAG (0)</span>
+        </div>
+    </nav>
+
+    <!-- Animated Asymmetrical Hero -->
+    <main class="hero">
+        <div class="hero-text">
+            <p class="overline">CURATED FOR EVERYDAY LIFE — 2026</p>
+            <h1>Find your<br><em>next essential.</em></h1>
+            <p class="description">A considered edit of things worth having. From daily rituals to long-term obsessions.</p>
+            <a href="#store" class="explore-link">EXPLORE THE EDIT ↗</a>
+        </div>
+        <div class="hero-image">
+            <img src="https://images.unsplash.com/photo-1579722820308-d74e571900a9?w=800" alt="Premium Whey Protein">
+            <div class="badge">C / I<br>EST. 2026</div>
+        </div>
+    </main>
+
+    <!-- Store Section & Filters -->
+    <section id="store" class="store-section">
+       <div class="filter-bar">
+            <button class="filter-btn active" data-category="All">Overall</button>
+            <button class="filter-btn" data-category="Supplements">Supplements</button>
+            <button class="filter-btn" data-category="Books">Books</button>
+            <button class="filter-btn" data-category="Mobiles">Mobiles</button>
+            <button class="filter-btn" data-category="Laptops">Laptops</button>
+            <button class="filter-btn" data-category="Clothes">Clothes</button>
+            <button class="filter-btn" data-category="Shoes">Shoes</button>
+        </div>
+
+        <div class="product-grid" id="product-list"></div>
+    </section>
+
+    <!-- Slide-out Wishlist Sidebar -->
+    <div class="overlay" id="overlay"></div>
+    <div class="wishlist-sidebar" id="wishlist-sidebar">
+        <div class="wishlist-header">
+            <h2>Your Wishlist</h2>
+            <button id="close-wishlist">✕</button>
+        </div>
+        <div class="wishlist-content" id="wishlist-content">
+            <!-- Saved items will populate here -->
+        </div>
+    </div>
+
+    <!-- Slide-out Bag Sidebar with Checkout -->
+    <div class="wishlist-sidebar" id="bag-sidebar">
+        <div class="wishlist-header">
+            <h2>Your Bag</h2>
+            <button id="close-bag">✕</button>
+        </div>
+        
+        <!-- Cart Items List (Scrollable) -->
+        <div class="wishlist-content" id="bag-content" style="flex-grow: 0; max-height: 40vh; overflow-y: auto; border-bottom: 1px solid #ddd; padding-bottom: 1rem; margin-bottom: 1rem;">
+            <!-- Cart items will populate here -->
+        </div>
+        
+        <!-- NEW CHECKOUT UI -->
+        <div class="checkout-section" id="checkout-section" style="display: none;">
+            <div style="display: flex; justify-content: space-between; font-family: var(--font-serif); font-size: 1.2rem; margin-bottom: 1.5rem;">
+                <span>Total:</span>
+                <span id="bag-total-price">₹0</span>
+            </div>
+            
+            <div class="auth-form active-form" style="gap: 10px;">
+                <h4 style="font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px;">Delivery Details</h4>
+                <input type="text" id="del-name" placeholder="Full Name">
+                <input type="text" id="del-phone" placeholder="Phone Number">
+                <input type="text" id="del-address" placeholder="Full Address & Pincode">
+                
+                <h4 style="font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; margin-top: 10px;">Payment Method</h4>
+                <div style="display: flex; gap: 15px; font-size: 0.85rem; font-family: var(--font-sans);">
+                    <label><input type="radio" name="payment" value="UPI" checked> UPI</label>
+                    <label><input type="radio" name="payment" value="Card"> Card</label>
+                    <label><input type="radio" name="payment" value="COD"> COD</label>
+                </div>
+                
+                <button class="auth-submit" style="margin-top: 15px;" onclick="placeOrder()">PLACE ORDER</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- The Auth Modal -->
+    <div id="auth-modal" class="auth-overlay">
+        <div class="auth-box">
+            <span class="close-auth" onclick="closeAuthModal()">&times;</span>
+            
+            <div class="auth-tabs">
+                <button id="tab-login" class="active-tab" onclick="switchAuthTab('login')">Login</button>
+                <button id="tab-register" onclick="switchAuthTab('register')">Register</button>
+            </div>
+
+            <!-- Login Form -->
+            <div id="form-login" class="auth-form active-form">
+                <input type="email" id="login-email" placeholder="Email Address">
+                <input type="password" id="login-password" placeholder="Password">
+                <button class="auth-submit" onclick="loginUser()">SIGN IN</button>
+            </div>
+
+            <!-- Register Form -->
+            <div id="form-register" class="auth-form">
+                <input type="text" id="reg-username" placeholder="Username">
+                <input type="email" id="reg-email" placeholder="Email Address">
+                <input type="password" id="reg-password" placeholder="Password">
+                <button class="auth-submit" onclick="registerUser()">CREATE ACCOUNT</button>
+            </div>
+            
+            <p id="auth-message"></p>
+        </div>
+    </div>
+
+    <!-- The Orders Modal -->
+    <div id="orders-modal" class="auth-overlay">
+        <div class="auth-box" style="max-width: 500px;">
+            <span class="close-auth" onclick="closeOrdersModal()">&times;</span>
+            <h2 style="margin-bottom: 20px; font-family: var(--font-serif);">Your Orders</h2>
+            <div id="orders-content" style="max-height: 60vh; overflow-y: auto; text-align: left;">
+                <!-- Orders will load here -->
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
